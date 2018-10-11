@@ -58,7 +58,6 @@ int main()
                 strcat( copy1, copy ) ;
                 strcat( copy1, ",\n") ;
                 fprintf( converted, "%s", copy1);
-				free(copy);
            }
            else if( strstr( str, "<X>") != NULL && InPlacement == 1 ) {
                 char *token;
@@ -71,7 +70,6 @@ int main()
                 strcat( copy1, copy ) ;
                 strcat( copy1, ",\n") ;
                 fprintf( converted, "%s", copy1);
-				free(copy);
            }
            else if( strstr( str, "<Y>") != NULL && InPlacement == 1 ) {
                 char *token;
@@ -84,7 +82,6 @@ int main()
                 strcat( copy1, copy ) ;
                 strcat( copy1, ",\n") ;
                 fprintf( converted, "%s", copy1);
-				free(copy);
            }
            else if( strstr( str, "<Z>") != NULL && InPlacement == 1 ) {
                 char *token;
@@ -97,7 +94,6 @@ int main()
                 strcat( copy1, copy ) ;
                 strcat( copy1, ",\n") ;
                 fprintf( converted, "%s", copy1);
-				free(copy);
            }
            else if( strstr( str, "<Pitch>") != NULL && InPlacement == 1 ) {
                 char *token;
@@ -110,7 +106,6 @@ int main()
                 strcat( copy1, copy ) ;
                 strcat( copy1, ",\n") ;
                 fprintf( converted, "%s", copy1);
-				free(copy);
            }
            else if( strstr( str, "<Roll>") != NULL && InPlacement == 1 ) {
                 char *token;
@@ -123,7 +118,6 @@ int main()
                 strcat( copy1, copy ) ;
                 strcat( copy1, ",\n") ;
                 fprintf( converted, "%s", copy1);
-				free(copy);
            }
            else if( strstr( str, "<Yaw>") != NULL && 1 == InPlacement ) {
                 char *token;
@@ -137,7 +131,6 @@ int main()
                 strcat( copy1, ",\n") ;
                 fprintf( converted, "%s", copy1);
                 fprintf( converted, "%s", "  \"col\": true,\n  \"freeze\": true\n");
-				free(copy);
            }
            else if( strstr( str, "</Placement>") != NULL ) {
                fprintf( converted, "%s", " }");
@@ -148,7 +141,5 @@ int main()
     fprintf(converted, "%s", "\n]");
     fclose(original);
     fclose(converted);
-	free(input_name);
-	free(output_name);
     return 0;
 }
