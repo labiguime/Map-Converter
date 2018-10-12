@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+void tokenize_string(char *original_string, char *token_string) {
+    token_string = strtok(original_string, ">");
+    token_string = strtok(NULL, ">");
+}
+
 int main()
 {
     char input_name[64];
@@ -51,8 +56,7 @@ int main()
            }
            else if (strstr(str, "<HashName>") != NULL && InPlacement == 1) {
                 char *token;
-                token = strtok(str, ">");
-                token = strtok(NULL, ">");
+                tokenize_string(str, token);
                 char copy[256];
                 memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"model\": ";
@@ -63,8 +67,7 @@ int main()
            }
            else if (strstr(str, "<X>") != NULL && InPlacement == 1) {
                 char *token;
-                token = strtok(str, ">");
-                token = strtok(NULL, ">");
+                tokenize_string(str, token);
                 char copy[256];
                 memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"x\": ";
@@ -75,8 +78,7 @@ int main()
            }
            else if (strstr(str, "<Y>") != NULL && InPlacement == 1) {
                 char *token;
-                token = strtok(str, ">");
-                token = strtok(NULL, ">");
+                tokenize_string(str, token);
                 char copy[256];
                 memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"y\": ";
@@ -87,8 +89,7 @@ int main()
            }
            else if (strstr(str, "<Z>") != NULL && InPlacement == 1) {
                 char *token;
-                token = strtok(str, ">");
-                token = strtok(NULL, ">");
+                tokenize_string(str, token);
                 char copy[256];
                 memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"z\": ";
@@ -99,8 +100,7 @@ int main()
            }
            else if (strstr(str, "<Pitch>") != NULL && InPlacement == 1) {
                 char *token;
-                token = strtok(str, ">");
-                token = strtok(NULL, ">");
+                tokenize_string(str, token);
                 char copy[256];
                 memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"rx\": ";
@@ -111,8 +111,7 @@ int main()
            }
            else if (strstr(str, "<Roll>") != NULL && InPlacement == 1) {
                 char *token;
-                token = strtok(str, ">");
-                token = strtok(NULL, ">");
+                tokenize_string(str, token);
                 char copy[256];
                 memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"ry\": ";
@@ -123,8 +122,7 @@ int main()
            }
            else if (strstr(str, "<Yaw>") != NULL && 1 == InPlacement) {
                 char *token;
-                token = strtok(str, ">");
-                token = strtok(NULL, ">");
+                tokenize_string(str, token);
                 char copy[256];
                 memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"rz\": ";
@@ -145,3 +143,5 @@ int main()
     fclose(converted);
     return 0;
 }
+
+
