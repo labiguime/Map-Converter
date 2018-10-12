@@ -2,6 +2,33 @@
 #include <stdlib.h>
 #include <string.h>
 
+char test1[6][16] = {
+    "<HashName>",
+    "<X>",
+    "<Y>",
+    "<Z>",
+    "<Pitch>",
+    "<Roll>"
+};
+
+char tcopy[6][32] = {
+    "  \"model\": ",
+    "  \"x\": ",
+    "  \"y\": ",
+    "  \"z\": ",
+    "  \"rx\": ",
+    "  \"ry\": "
+};
+
+int sizee[6] = {
+    10,
+    3,
+    3,
+    3,
+    7,
+    6
+} ;
+
 void tokenize_string(char *original_string, char *token_string) {
     token_string = strtok(original_string, ">");
     token_string = strtok(NULL, ">");
@@ -55,6 +82,7 @@ int main()
     printf(output_name);
     converted = fopen(output_name, "ab+");
     fprintf(converted, "%s", "[\n");
+
     while(!feof(original))
     {
         if (fgets(str, 1024, original) != NULL) {
@@ -68,42 +96,6 @@ int main()
                 }
                 InPlacement = 1 ;
            }
-           else if (strstr(str, "<HashName>") != NULL && InPlacement == 1) {
-                char *token;
-                tokenize_string(str, token);
-                char copy1[256] = "  \"model\": ";
-                write_converted_string(converted, copy1, 10, token);
-           }
-           else if (strstr(str, "<X>") != NULL && InPlacement == 1) {
-                char *token;
-                tokenize_string(str, token);
-                char copy1[256] = "  \"x\": ";
-                write_converted_string(converted, copy1, 3, token);
-           }
-           else if (strstr(str, "<Y>") != NULL && InPlacement == 1) {
-                char *token;
-                tokenize_string(str, token);
-                char copy1[256] = "  \"y\": ";
-                write_converted_string(converted, copy1, 3, token);
-           }
-           else if (strstr(str, "<Z>") != NULL && InPlacement == 1) {
-                char *token;
-                tokenize_string(str, token);
-                char copy1[256] = "  \"z\": ";
-                write_converted_string(converted, copy1, 3, token);
-           }
-           else if (strstr(str, "<Pitch>") != NULL && InPlacement == 1) {
-                char *token;
-                tokenize_string(str, token);
-                char copy1[256] = "  \"rx\": ";
-                write_converted_string(converted, copy1, 7, token);
-           }
-           else if (strstr(str, "<Roll>") != NULL && InPlacement == 1) {
-                char *token;
-                tokenize_string(str, token);
-                char copy1[256] = "  \"ry\": ";
-                write_converted_string(converted, copy1, 6, token);
-           }
            else if (strstr(str, "<Yaw>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
@@ -115,6 +107,19 @@ int main()
                fprintf(converted, "%s", " }");
                InPlacement = 0 ;
            }
+           else {
+            for(int i = 0; i < 6; i++) {
+                if(strstr(str, test1[0]) != NULL && InPlacement == 1)
+                {
+                    char *token;
+                    tokenize_string(str, token);
+                    write_converted_string(converted, tcopy[i], sizee[i], token);
+                    break;
+                }
+            }
+           }
+
+
         }
     }
     fprintf(converted, "%s", "\n]");
