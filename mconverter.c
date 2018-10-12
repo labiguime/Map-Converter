@@ -7,6 +7,20 @@ void tokenize_string(char *original_string, char *token_string) {
     token_string = strtok(NULL, ">");
 }
 
+void write_converted_string(FILE *destination, char *arg1, int arg2, char *token) {
+    char final_string[256];
+    char tmp[256];
+
+    memset(&tmp[0], 0, sizeof(tmp));
+    strcpy(final_string, arg1);
+
+    strncpy(tmp, token, strlen(token)-arg2);
+    strcat(final_string, tmp ) ;
+    strcat(final_string, ",\n") ;
+    fprintf(destination, "%s", final_string);
+}
+
+
 int main()
 {
     char input_name[64];
@@ -40,7 +54,7 @@ int main()
     }
     printf(output_name);
     converted = fopen(output_name, "ab+");
-    fprintf( converted, "%s", "[\n");
+    fprintf(converted, "%s", "[\n");
     while(!feof(original))
     {
         if (fgets(str, 1024, original) != NULL) {
@@ -57,79 +71,44 @@ int main()
            else if (strstr(str, "<HashName>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
-                char copy[256];
-                memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"model\": ";
-                strncpy(copy, token, strlen(token)-10);
-                strcat(copy1, copy ) ;
-                strcat(copy1, ",\n") ;
-                fprintf(converted, "%s", copy1);
+                write_converted_string(converted, copy1, 10, token);
            }
            else if (strstr(str, "<X>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
-                char copy[256];
-                memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"x\": ";
-                strncpy(copy, token, strlen(token)-3);
-                strcat(copy1, copy ) ;
-                strcat(copy1, ",\n") ;
-                fprintf(converted, "%s", copy1);
+                write_converted_string(converted, copy1, 3, token);
            }
            else if (strstr(str, "<Y>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
-                char copy[256];
-                memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"y\": ";
-                strncpy(copy, token, strlen(token)-3);
-                strcat(copy1, copy ) ;
-                strcat(copy1, ",\n") ;
-                fprintf(converted, "%s", copy1);
+                write_converted_string(converted, copy1, 3, token);
            }
            else if (strstr(str, "<Z>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
-                char copy[256];
-                memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"z\": ";
-                strncpy(copy, token, strlen(token)-3);
-                strcat(copy1, copy ) ;
-                strcat(copy1, ",\n") ;
-                fprintf(converted, "%s", copy1);
+                write_converted_string(converted, copy1, 3, token);
            }
            else if (strstr(str, "<Pitch>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
-                char copy[256];
-                memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"rx\": ";
-                strncpy(copy, token, strlen(token)-7);
-                strcat(copy1, copy ) ;
-                strcat(copy1, ",\n") ;
-                fprintf(converted, "%s", copy1);
+                write_converted_string(converted, copy1, 7, token);
            }
            else if (strstr(str, "<Roll>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
-                char copy[256];
-                memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"ry\": ";
-                strncpy(copy, token, strlen(token)-6);
-                strcat(copy1, copy ) ;
-                strcat(copy1, ",\n") ;
-                fprintf(converted, "%s", copy1);
+                write_converted_string(converted, copy1, 6, token);
            }
-           else if (strstr(str, "<Yaw>") != NULL && 1 == InPlacement) {
+           else if (strstr(str, "<Yaw>") != NULL && InPlacement == 1) {
                 char *token;
                 tokenize_string(str, token);
-                char copy[256];
-                memset(&copy[0], 0, sizeof(copy));
                 char copy1[256] = "  \"rz\": ";
-                strncpy(copy, token, strlen(token)-5);
-                strcat(copy1, copy ) ;
-                strcat(copy1, ",\n") ;
-                fprintf(converted, "%s", copy1);
+                write_converted_string(converted, copy1, 5, token);
                 fprintf(converted, "%s", "  \"col\": true,\n  \"freeze\": true\n");
            }
            else if (strstr( str, "</Placement>") != NULL) {
