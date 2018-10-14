@@ -36,13 +36,13 @@ void tokenize_string(char *original_string, char *token_string) {
 
 void write_converted_string(FILE *destination, char *arg1, int arg2, char *token) {
     char final_string[256];
-    char tmp[ 256 ];
+    char tmp[256];
 
-    memset( &tmp[0], 0, sizeof(tmp));
+    memset(&tmp[0], 0, sizeof(tmp));
     strcpy(final_string, arg1);
 
     strncpy(tmp, token, strlen(token)-arg2);
-    strcat(final_string, tmp ) ;
+    strcat(final_string, tmp) ;
     strcat(final_string, ",\n") ;
     fprintf(destination, "%s", final_string);
 }
