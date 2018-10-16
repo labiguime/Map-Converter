@@ -2,31 +2,34 @@
 #include <stdlib.h>
 #include <string.h>
 
-char test1[6][16] = {
+char original_entries[7][16] = {
     "<HashName>",
     "<X>",
     "<Y>",
     "<Z>",
     "<Pitch>",
-    "<Roll>"
+    "<Roll>",
+    "<Yaw>"
 };
 
-char tcopy[6][32] = {
+char converted_entries[7][32] = {
     "  \"model\": ",
     "  \"x\": ",
     "  \"y\": ",
     "  \"z\": ",
     "  \"rx\": ",
-    "  \"ry\": "
+    "  \"ry\": ",
+    "  \"rz\": "
 };
 
-int sizee[6] = {
+int entries_size[7] = {
     10,
     3,
     3,
     3,
     7,
-    6
+    6,
+    5
 } ;
 
 void tokenize_string(char *original_string, char *token_string) {
@@ -96,24 +99,20 @@ int main()
                 }
                 InPlacement = 1 ;
            }
-           else if (strstr(str, "<Yaw>") != NULL && InPlacement == 1) {
-                char *token;
-                tokenize_string(str, token);
-                char copy1[256] = "  \"rz\": ";
-                write_converted_string(converted, copy1, 5, token);
-                fprintf(converted, "%s", "  \"col\": true,\n  \"freeze\": true\n");
-           }
            else if (strstr( str, "</Placement>") != NULL) {
                fprintf(converted, "%s", " }");
                InPlacement = 0 ;
            }
            else {
-            for(int i = 0; i < 6; i++) {
-                if(strstr(str, test1[0]) != NULL && InPlacement == 1)
+            for(int i = 0; i < 7; i++) {
+                if(strstr(str, original_entries[i]) != NULL && InPlacement == 1)
                 {
                     char *token;
                     tokenize_string(str, token);
-                    write_converted_string(converted, tcopy[i], sizee[i], token);
+                    write_converted_string(converted, converted_entries[i], entries_size[i], token);
+                    if (strstr(str, "<Yaw>")) {
+                        fprintf(converted, "%s", "  \"col\": true,\n  \"freeze\": true\n");
+                    }
                     break;
                 }
             }
