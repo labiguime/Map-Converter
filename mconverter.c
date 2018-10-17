@@ -12,7 +12,7 @@ char original_entries[7][16] = {
     "<Yaw>"
 };
 
-char converted_entries[7][32] = {
+char *converted_entries[7] = {
     "  \"model\": ",
     "  \"x\": ",
     "  \"y\": ",
@@ -32,18 +32,16 @@ int entries_size[7] = {
     5
 } ;
 
-void tokenize_string(char *original_string, char *token_string) {
-    token_string = strtok(original_string, ">");
-    token_string = strtok(NULL, ">");
+void tokenize_string(char *original_string, char **token_string) {
+    *token_string = strtok(original_string, ">");
+    *token_string = strtok(NULL, ">");
 }
 
 void write_converted_string(FILE *destination, char *arg1, int arg2, char *token) {
     char final_string[256];
     char tmp[256];
-
     memset(&tmp[0], 0, sizeof(tmp));
     strcpy(final_string, arg1);
-
     strncpy(tmp, token, strlen(token)-arg2);
     strcat(final_string, tmp) ;
     strcat(final_string, ",\n") ;
@@ -104,21 +102,19 @@ int main()
                InPlacement = 0 ;
            }
            else {
-            for(int i = 0; i < 7; i++) {
-                if(strstr(str, original_entries[i]) != NULL && InPlacement == 1)
+            for (int i = 0; i < 7; i++) {
+                if (strstr(str, original_entries[i]) != NULL && InPlacement == 1)
                 {
                     char *token;
-                    tokenize_string(str, token);
+                    tokenize_string(str, &token);
                     write_converted_string(converted, converted_entries[i], entries_size[i], token);
-                    if (strstr(str, "<Yaw>")) {
+                    if (strstr(original_entries[i], "<Yaw>")) {
                         fprintf(converted, "%s", "  \"col\": true,\n  \"freeze\": true\n");
                     }
                     break;
                 }
             }
            }
-
-
         }
     }
     fprintf(converted, "%s", "\n]");
